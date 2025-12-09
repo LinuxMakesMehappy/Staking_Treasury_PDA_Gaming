@@ -1,13 +1,13 @@
-# Perpetual Jupiter Earn Treasury (Solana) – Docs Only
+# Simple Jupiter Earn Treasury (Solana) – Docs Only
 
-A non-withdrawable, perpetually compounding Treasury PDA that deposits stablecoins into Jupiter's Earn protocol (powered by Fluid) and streams only the staking rewards to players. Principal can never be withdrawn; rewards scale funded player slots at $50k TVL milestones. Focuses on stablecoin safety with optimal yields.
+A basic treasury that stakes stablecoins in Jupiter's Earn protocol and distributes rewards proportionally to participants. No artificial scaling, no wage guarantees - just honest supplemental gaming rewards with market-rate yields.
 
-- **No human withdrawals**; principal is locked permanently.
-- **Jupiter Earn rewards only** (from Fluid-powered stablecoin staking) are distributed to active players.
-- **Stablecoin focus**: Safety-first with USDC, USDT, and other Jupiter Earn supported stables.
-- **Scaling**: +1 funded player per $50k TVL milestone; optional cap/rotation.
-- **Eligibility**: via staking or owning verified NFTs.
-- **Cadence**: harvest and distribute rewards every few minutes via a keeper.
+- **Emergency withdrawals allowed**; principal protected but accessible if needed.
+- **Market-rate rewards only** (~3% APR) distributed proportionally to participants.
+- **Stablecoin focus**: Conservative approach with USDC/USDT for safety.
+- **Simple distribution**: Equal shares among active participants, no caps or milestones.
+- **Eligibility**: Open participation with transparent criteria.
+- **Cadence**: Weekly reward distributions with compounding.
 
 Read next:
 - `docs/OVERVIEW.md` – concept and flow
@@ -16,19 +16,20 @@ Read next:
 - `docs/SPEC.md` – program accounts, instructions, and invariants (no code)
 
 ## Why this model
-- Aligns value with players: sustainable “near minimum wage” target funded by yield.
-- Principal compounds, increasing durable yield over time.
-- Deterministic scaling via TVL milestones; optional rotation for fairness.
+- **Honest economics**: No false promises of "minimum wage" - provides realistic supplemental income.
+- **Simple transparency**: Easy to understand proportional distribution with public dashboards.
+- **Sustainable growth**: Conservative yields ensure long-term viability, not short-term hype.
 
 ## High-level flow
-1. Game/service routes stablecoins to the Treasury PDA.
-2. Treasury deposits stablecoins into Jupiter's Earn protocol (Fluid-powered).
-3. Keeper harvests Earn rewards every few minutes.
-4. Rewards are split among active players; surplus compounds; principal remains locked.
+1. Participants deposit stablecoins into treasury.
+2. Treasury stakes in Jupiter's Earn protocol for market yields (~3% APR).
+3. Weekly harvest and distribution of rewards proportionally.
+4. 70% of rewards compound back into treasury for growth.
 
 ## Status
-- Design draft for dev review; no code in this repo.
-- Implementation targets: Solana (Anchor), Jupiter's Earn protocol powered by Fluid.
+- Critically evaluated and simplified for realistic implementation.
+- Ready for development: Solana (Anchor), Jupiter's Earn protocol.
+- Focus: Simple, sustainable gaming rewards over complex wage guarantees.
 
 ## Contributing
 See `CONTRIBUTING.md`. Open design questions and proposals via Issues/Discussions.

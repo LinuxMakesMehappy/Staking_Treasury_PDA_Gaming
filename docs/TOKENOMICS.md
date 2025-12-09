@@ -1,25 +1,22 @@
 # Tokenomics
 
-## Variables
-- C: principal capital (USD, value of stablecoins in Jupiter Earn)
-- r: Jupiter Earn reward rate (annual percentage, Fluid-powered)
-- y: daily Earn rewards = C * r / 365
-- p: target base pay per player per day (USD), configurable
-- S: sustainable players per day = floor(y / p)
+## Simple Variables
+- C: treasury capital (stablecoins)
+- r: market yield rate (~3% APR)
+- y: daily rewards = C × r ÷ 365
+- n: number of participants
+- d: daily payout per participant = y ÷ n
 
-## Milestones
-- Milestone slots = floor(C / 50,000).
-- Active funded players = min(cap, max(S, Milestone slots)) or use milestones as a hard cap for determinism.
+## Simple Distribution
+- Weekly payouts proportional to participation
+- No caps or artificial limits on participants
+- 70% of rewards compound back into treasury
+- 30% distributed as participant rewards
 
-## Distribution cadence
-- Every N minutes (e.g., 10m), per-player target payout = p * (N / 1440).
-- If available yield < target, pay pro-rata; deficit does not touch principal.
-- Surplus compounds (minus a small buffer to reduce LP churn).
-
-## Risk notes
-- Jupiter Earn risk: Fluid protocol or Jupiter integration failures → mitigated by Jupiter's due diligence and stablecoin focus.
-- Stablecoin depeg risk: mitigated by Jupiter's conservative stablecoin selection (USDC, USDT, etc.).
-- Smart contract risk: audits and staged rollout; freeze upgrades after stabilization.
-- Reward volatility: dynamic target protects principal; milestones add predictability.
+## Realistic Risks
+- **Yield volatility**: Market rates fluctuate (2-4% APR typical range)
+- **Platform risk**: Jupiter Earn could change terms or have outages
+- **Stablecoin risk**: USDC/USDT depeg possible but historically rare
+- **Smart contract risk**: Audits required, emergency withdrawals available
 
 

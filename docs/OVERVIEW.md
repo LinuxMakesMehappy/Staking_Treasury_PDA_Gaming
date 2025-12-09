@@ -1,26 +1,26 @@
 # Overview
 
 ## Concept
-A program-owned Treasury PDA deposits stablecoins into Jupiter's Earn protocol (powered by Fluid) to earn staking rewards. The **principal is permanently locked**, with **no human withdrawal paths**. Only harvested **Earn rewards** are distributed to players. Stablecoins provide safety while maximizing yields.
+A simple treasury that stakes stablecoins in Jupiter's Earn protocol and distributes rewards proportionally to participants. No complex scaling or wage guarantees - just honest supplemental gaming rewards with market yields.
 
 ## Goals
-- Provide near minimum-wage equivalent earnings for active players.
-- Grow Treasury via fee inflows and compounding Jupiter Earn rewards.
-- Scale funded players deterministically: +1 per $50k TVL milestone; optional cap/rotation.
-- Maintain safety through Jupiter's curated stablecoin selection.
+- Provide realistic supplemental income (~$25/month) for dedicated players.
+- Grow treasury sustainably through compounding at market rates (~3% APR).
+- Maintain transparency with simple proportional distribution.
+- Prioritize safety through conservative stablecoin staking.
 
 ## Flow
-1. Fees from a game/service route stablecoins by CPI into the Treasury PDA.
-2. Treasury deposits stablecoins into Jupiter's Earn protocol (Fluid-powered).
-3. Keeper harvests Earn rewards every few minutes, sending rewards to a rewards vault.
-4. Rewards are split among active players; leftover compounds; principal never decreases.
+1. Participants deposit stablecoins into treasury.
+2. Treasury stakes in Jupiter's Earn for market yields.
+3. Weekly harvest of rewards to distribution vault.
+4. Proportional distribution to participants; 70% surplus compounds.
 
-## Safety rails
-- No general `withdraw` instruction exists.
-- Principal floor enforced across all transfers and Earn deposits/withdrawals.
-- Only Jupiter Earn protocol (Fluid-powered) with Jupiter's stablecoin whitelist.
-- Price oracles used for USD TVL calculations; focus on depeg-resistant stables.
-- Upgrades gated (multisig/timelock) with path to freeze after audit.
+## Safety measures
+- Emergency withdrawal option for participants if needed.
+- Conservative stablecoin selection (USDC, USDT) to minimize depeg risk.
+- Transparent public dashboard showing treasury status and yields.
+- Multisig governance for parameter changes.
+- Regular audits and monitoring of Jupiter Earn protocol.
 
 ## Eligibility
 - Stake a specified token OR hold a verified NFT collection.
