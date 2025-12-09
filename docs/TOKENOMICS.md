@@ -1,9 +1,9 @@
 # Tokenomics
 
 ## Variables
-- C: principal capital (USD)
-- a: net APR from LP (after IL and costs)
-- y: daily yield = C * a / 365
+- C: principal capital (USD, value of stablecoins in Jupiter Earn)
+- r: Jupiter Earn reward rate (annual percentage, Fluid-powered)
+- y: daily Earn rewards = C * r / 365
 - p: target base pay per player per day (USD), configurable
 - S: sustainable players per day = floor(y / p)
 
@@ -17,8 +17,9 @@
 - Surplus compounds (minus a small buffer to reduce LP churn).
 
 ## Risk notes
-- Stable pool risk: depeg/IL → mitigate via conservative allowlist and oracle checks.
+- Jupiter Earn risk: Fluid protocol or Jupiter integration failures → mitigated by Jupiter's due diligence and stablecoin focus.
+- Stablecoin depeg risk: mitigated by Jupiter's conservative stablecoin selection (USDC, USDT, etc.).
 - Smart contract risk: audits and staged rollout; freeze upgrades after stabilization.
-- Yield volatility: dynamic target protects principal; milestones add predictability.
+- Reward volatility: dynamic target protects principal; milestones add predictability.
 
 
