@@ -13,7 +13,7 @@ For game developers integrating GameStake rewards.
 ### 1. Initialize Your Treasury
 
 ```typescript
-import { GameStake } from '@gamestake/sdk';
+import { GameStake, DistributionMode } from '@gamestake/sdk';
 
 const gamestake = new GameStake({
   rpcUrl: 'https://api.mainnet-beta.solana.com',
@@ -25,8 +25,38 @@ const gamestake = new GameStake({
 await gamestake.initializeTreasury({
   gameNftCollection: yourCollectionMint,
   minimumActivityScore: 100,  // Weekly activity threshold
+  
+  // Distribution configuration - choose one:
+  distributionMode: DistributionMode.GameToken,  // or Usdc, or Hybrid
+  gameTokenMint: YOUR_GAME_TOKEN_MINT,           // Required for token mode
+  tokenPercentage: 100,                          // For hybrid: % paid in token
 });
 ```
+
+### Distribution Modes
+
+Choose how players receive rewards:
+
+| Mode | Configuration | Players Receive |
+|------|---------------|-----------------|
+| `Usdc` | Default | USDC directly |
+| `GameToken` | Requires `gameTokenMint` | Your game token (swapped via Jupiter) |
+| `Hybrid` | Requires both + `tokenPercentage` | Split USDC + game token |
+
+**Example: 70% Game Token, 30% USDC**
+```typescript
+await gamestake.initializeTreasury({
+  gameNftCollection: yourCollectionMint,
+  distributionMode: DistributionMode.Hybrid,
+  gameTokenMint: YOUR_GAME_TOKEN_MINT,
+  tokenPercentage: 70,  // 70% in game token, 30% in USDC
+});
+```
+
+**Why use Game Token mode?**
+- Creates consistent buy pressure on your token
+- Aligns player incentives with game economy
+- Tokens distributed are backed by real yield, not emissions
 
 ### 2. Fund Your Treasury
 
@@ -141,11 +171,16 @@ Players claim via your game UI or directly:
 ```typescript
 // Check claimable amount
 const claimable = await gamestake.getClaimableRewards(playerWallet);
-// { amount: 3000000 }  // $3 USDC
+// Returns based on your distribution mode:
+// USDC mode:  { token: 'USDC', amount: 3000000 }
+// Token mode: { token: 'GAME', amount: 15000000 }  // Varies with token price
+// Hybrid:     { usdc: 900000, gameToken: 10500000 }
 
 // Claim to player wallet
 await gamestake.claimRewards(playerWallet);
 ```
+
+**Note**: In Game Token mode, the USDC value of rewards is constant (~$3/day equivalent), but the token amount varies based on current token price at distribution time.
 
 ### Reward Calculation
 

@@ -103,19 +103,27 @@ Jupiter Earn (powered by Fluid) provides:
 │                    GAME TREASURY                        │
 │  Each game maintains its own treasury PDA              │
 │  Minimum: $36,500 to activate (1 player slot)          │
+│  Configures: distribution token (USDC or game token)   │
 └────────────────────────────────────────────────────────┘
                           │
                           ▼
 ┌────────────────────────────────────────────────────────┐
 │                   JUPITER EARN                          │
 │  Stablecoins staked via CPI                            │
-│  ~3% APR returned as yield                             │
+│  ~3% APR returned as yield (USDC)                      │
+└────────────────────────────────────────────────────────┘
+                          │
+                          ▼
+┌────────────────────────────────────────────────────────┐
+│              DISTRIBUTION ROUTER                        │
+│  If USDC mode: direct to rewards vault                 │
+│  If token mode: Jupiter Swap → game token → vault      │
 └────────────────────────────────────────────────────────┘
                           │
                           ▼
 ┌────────────────────────────────────────────────────────┐
 │                  REWARDS VAULT                          │
-│  Weekly harvest of staking rewards                     │
+│  Weekly harvest of rewards (USDC or game token)        │
 │  Proportional distribution to eligible players         │
 └────────────────────────────────────────────────────────┘
                           │
@@ -127,7 +135,25 @@ Jupiter Earn (powered by Fluid) provides:
 └────────────────────────────────────────────────────────┘
 ```
 
-### 4.2 Account Structure
+### 4.2 Distribution Modes
+
+Games choose how to distribute staking yield to players:
+
+| Mode | Flow | Benefits | Considerations |
+|------|------|----------|----------------|
+| **USDC** | Yield → Players | Universal value, no slippage | No token utility |
+| **Game Token** | Yield → Jupiter Swap → Token → Players | Creates buy pressure, token utility | Slippage, token volatility |
+| **Hybrid** | Split % USDC / % Token | Balanced approach | More complex |
+
+**Token Mode Mechanics**:
+1. Weekly yield harvested in USDC
+2. USDC swapped to game token via Jupiter Swap
+3. Game tokens distributed to eligible players
+4. Creates consistent buy pressure on game token
+
+**Critical Note**: Token mode means player rewards fluctuate with token price. A $3/day USDC yield could be worth more or less depending on token value at claim time.
+
+### 4.3 Account Structure
 
 ```rust
 pub struct GameTreasury {
@@ -137,8 +163,18 @@ pub struct GameTreasury {
     pub jupiter_position: Pubkey,
     pub total_distributed: u64,
     pub player_count: u32,
-    pub minimum_tvl: u64,        // $36,500 default
+    pub minimum_tvl: u64,           // $36,500 default
     pub is_active: bool,
+    // Distribution configuration
+    pub distribution_mode: DistributionMode,
+    pub game_token_mint: Option<Pubkey>,  // Required if token mode
+    pub token_percentage: u8,              // 0-100, for hybrid mode
+}
+
+pub enum DistributionMode {
+    Usdc,           // Pay in USDC directly
+    GameToken,      // Swap all yield to game token
+    Hybrid,         // Split between USDC and game token
 }
 
 pub struct Player {

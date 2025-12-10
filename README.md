@@ -26,8 +26,19 @@ $3/day is the minimum wage in India, Philippines, Indonesia, and much of the dev
 
 1. Games deposit stablecoins to their GameStake treasury
 2. Treasury stakes in Jupiter Earn (~3% APR)
-3. Weekly rewards distributed to verified active players
-4. Players prove activity, earn proportional share
+3. Weekly yield harvested
+4. **Games choose distribution token**: USDC or their native game token
+5. Players prove activity, earn proportional share
+
+## Distribution Options
+
+| Mode | How It Works | Use Case |
+|------|--------------|----------|
+| **USDC** | Yield paid directly in USDC | Universal value, simple |
+| **Game Token** | Yield swapped via Jupiter to game token | Token utility, ecosystem alignment |
+| **Hybrid** | Split between USDC and game token | Balanced approach |
+
+Games configure their distribution preference. Jupiter Swap handles conversion automatically.
 
 ## The Math
 
